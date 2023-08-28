@@ -83,7 +83,8 @@ jobs:
           name: ${{ env.RELEASE_NAME }}
           version: ${{ env.VERSION }}
           version-type: release
-          changelog: test
+          github-generate-changelog: true
+          changelog: ${{ steps.get_summary.outputs.result }}
           files: ./build-artifacts/*.jar
 
           loaders: fabric
