@@ -65,9 +65,28 @@ jobs:
         env:
           changelog: ${{ steps.github_release.outputs.changelog }}
 
-      # https://github.com/softprops/action-gh-release
-      - name: Create Release
-        uses: softprops/action-gh-release@v0.1.15
+      - name: Release（CurseForge/Modrinth
+        uses: Kir-Antipov/mc-publish@v3.2
         with:
-          body: ${{ steps.get_summary.outputs.result }}
+          # # curse forge
+          # curseforge-id: 123456
+          # curseforge-token: ${{ env.CURSEFORGE_TOKEN }}
+
+          # # modrinth
+          # modrinth-id: 1q2w3e4r
+          # modrinth-token: ${{ env.MODRINTH_TOKEN }}
+
+          # github
+          github-tag: v${{ env.VERSION }}
+          github-token: ${{ env.GITHUB_TOKEN }}
+
+          name: ${{ env.RELEASE_NAME }}
+          version: ${{ env.VERSION }}
+          version-type: release
+          changelog: ${{ steps.get_summary.outputs.result }}
           files: ./build-artifacts/*.jar
+
+          loaders: fabric
+          game-versions: ${{ env.MINECRAFT_VERSION }}
+          java: ${{ env.JAVA_VERSION }}
+          dependencies: '' # declare the dependencies explicitly, so mc-publish won't try to load from fabric.mod.json
