@@ -1,0 +1,84 @@
+name: build
+
+on:
+  workflow_dispatch:
+    inputs:
+      release:
+        description: 'Release Mode'
+        type: boolean
+        required: false
+        default: false
+
+      target_subproject:
+        description: leave it empty to build all, use `,` split versions
+        type: string
+        required: false
+        default: ''
+  workflow_call:
+    inputs:
+      release:
+        description: 'Release Mode'
+        type: boolean
+        required: false
+        default: false
+
+      target_subproject:
+        description: leave it empty to build all, use `,` split versions
+        type: string
+        required: false
+        default: ''
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # https://github.com/actions/checkout
+      - uses: actions/checkout@v3
+
+      # https://github.com/actions/setup-java
+      - name: Setup JDK-17
+        uses: actions/setup-java@v3
+        with:
+          distribution: temurin
+          java-version: 17
+
+      # https://github.com/actions/cache
+      # https://github.com/actions/cache/blob/main/examples.md#java---gradle
+      - name: Cache gradle files
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+            ./.gradle/loom-cache
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle', '**/gradle.properties', 'versions.json') }}
+          restore-keys: ${{ runner.os }}-gradle-
+
+      - name: Build gradle
+        run: |
+          chmod 777 gradlew
+          if [ -z "${{ inputs.target_subproject }}" ]; then
+            echo Build all subprojects
+            ./gradlew build
+          else
+            args=$(echo "${{ inputs.target_subproject }}" | tr ',' '\n' | sed 's/$/:build/' | paste -sd ' ')
+            echo "Building with arguments=$args"
+            ./gradlew $args
+          fi
+        env:
+          BUILD_ID: ${{ github.run_number }}
+          BUILD_RELEASE: ${{ inputs.release }}
+
+      - name: Make build summary
+        run: python3 .github/workflows/scripts/summary.py # ubuntu-22.04 uses Python 3.10.6
+        env:
+          TARGET_SUBPROJECT: ${{ inputs.target_subproject }}
+
+      # https://github.com/actions/upload-artifact
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: build-artifacts
+          # builds dir in `Make build summary` create
+          path: builds/*

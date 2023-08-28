@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "id": "${id}",
+  "version": "${version}",
+
+  "name": "${name}",
+  "description": "Template for my fabric mods",
+  "authors": [
+    "Fallen_Breath"
+  ],
+  "contact": {
+    "homepage": "https://modrinth.com",
+    "sources": "https://github.com/Fallen-Breath/fabric-mod-template"
+  },
+
+  "icon": "assets/template_mod/icon.png",
+
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "monkey.template_mod.TemplateMod"
+    ]
+  },
+  "mixins": [],
+
+  "depends": {
+    "fabricloader": ">=0.11.4",
+    "minecraft": "${minecraft_dependency}"
+  }
+}
