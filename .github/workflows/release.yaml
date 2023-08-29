@@ -78,9 +78,8 @@ jobs:
           # curse forge
           curseforge-token: ${{ secrets.CURSEFORGE_TOKEN }}
 
-          # # modrinth
-          # modrinth-id: 1q2w3e4r
-          # modrinth-token: ${{ env.MODRINTH_TOKEN }}
+          # modrinth
+          modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
 
           loaders: fabric
           dependencies: '' # declare the dependencies explicitly, so mc-publish won't try to load from fabric.mod.json
