@@ -2,7 +2,7 @@
  * This file is part of the TemplateMod project, licensed under the
  * GNU Lesser General Public License v3.0
  *
- * Copyright (C) 2023  Fallen_Breath and contributors
+ * Copyright (C) 2023  Fallen_Breath and contributors & (c) 2023-present a3510377 Development
  *
  * TemplateMod is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -35,7 +35,8 @@ public class TemplateMod implements ModInitializer {
 
 	@Override
 	public void onInitialize() {
-		ModMetadata metadata = FabricLoader.getInstance().getModContainer(MOD_ID).orElseThrow(RuntimeException::new).getMetadata();
+		ModMetadata metadata = FabricLoader.getInstance().getModContainer(MOD_ID).orElseThrow(RuntimeException::new)
+				.getMetadata();
 		MOD_NAME = metadata.getName();
 		MOD_VERSION = metadata.getVersion().getFriendlyString();
 	}
