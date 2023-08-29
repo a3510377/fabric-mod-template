@@ -34,14 +34,6 @@ dependencies {
     minecraft "com.mojang:minecraft:${project.minecraft_version}"
     mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
     modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
-
-    // runtime mods
-//	if (mcVersion < 11904) {
-//		modRuntimeOnly(mcVersion < 11900 ? "com.github.astei:lazydfu:0.1.2" : "com.github.Fallen-Breath:lazydfu:a7cfc44c0c")
-//	}
-
-    // dependencies
-//	include(modImplementation(fabricApi.module("fabric-resource-loader-v0", project.fabric_api_version)))
 }
 
 JavaVersion JAVA_COMPATIBILITY
@@ -121,13 +113,17 @@ processResources {
     inputs.property "name", project.mod_name
     inputs.property "version", fullModVersion
     inputs.property "minecraft_dependency", project.minecraft_dependency
+    inputs.property "modrinth_project_id", project.modrinth_project_id
+    inputs.property "curseforge_project_id", project.curseforge_project_id
 
     filesMatching("fabric.mod.json") {
         def valueMap = [
-                "id"                  : project.mod_id,
-                "name"                : project.mod_name,
-                "version"             : fullModVersion,
-                "minecraft_dependency": project.minecraft_dependency,
+                "id"                   : project.mod_id,
+                "name"                 : project.mod_name,
+                "version"              : fullModVersion,
+                "minecraft_dependency" : project.minecraft_dependency,
+                "modrinth_project_id"  : project.modrinth_project_id,
+                "curseforge_project_id": project.curseforge_project_id,
         ]
         expand valueMap
     }
