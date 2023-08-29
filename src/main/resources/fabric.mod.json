@@ -5,26 +5,29 @@
 
   "name": "${name}",
   "description": "Template for my fabric mods",
-  "authors": [
-    "Fallen_Breath"
-  ],
+  "authors": ["a3510377"],
   "contact": {
     "homepage": "https://modrinth.com",
-    "sources": "https://github.com/Fallen-Breath/fabric-mod-template"
+    "sources": "https://github.com/a3510377/fabric-mod-template"
   },
 
   "icon": "assets/template_mod/icon.png",
 
   "environment": "*",
   "entrypoints": {
-    "main": [
-      "monkey.template_mod.TemplateMod"
-    ]
+    "main": ["monkey.template_mod.TemplateMod"]
   },
   "mixins": [],
 
   "depends": {
     "fabricloader": ">=0.11.4",
     "minecraft": "${minecraft_dependency}"
+  },
+
+  "custom": {
+    "mc-publish": {
+      "modrinth": "${modrinth_project_id}",
+      "curseforge": "${curseforge_project_id}"
+    }
   }
 }
