@@ -80,14 +80,8 @@ jobs:
           # github
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
-          name: ${{ env.RELEASE_NAME }}
-          version: ${{ env.VERSION }}
-          version-type: release
-          github-generate-changelog: true
           changelog: ${{ steps.get_summary.outputs.result }}
           files: ./build-artifacts/*.jar
 
           loaders: fabric
-          game-versions: ${{ env.MINECRAFT_VERSION }}
-          java: ${{ env.JAVA_VERSION }}
           dependencies: '' # declare the dependencies explicitly, so mc-publish won't try to load from fabric.mod.json
