@@ -65,6 +65,13 @@ jobs:
         env:
           changelog: ${{ steps.github_release.outputs.changelog }}
 
+      # https://github.com/softprops/action-gh-release
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          body: ${{ steps.get_summary.outputs.result }}
+          files: ./build-artifacts/*.jar
+
       # https://github.com/Kir-Antipov/mc-publish
       - name: Release（CurseForge/Modrinth
         uses: Kir-Antipov/mc-publish@v3.2
@@ -76,12 +83,6 @@ jobs:
           # # modrinth
           # modrinth-id: 1q2w3e4r
           # modrinth-token: ${{ env.MODRINTH_TOKEN }}
-
-          # github
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-
-          changelog: ${{ steps.get_summary.outputs.result }}
-          files: ./build-artifacts/*.jar
 
           loaders: fabric
           dependencies: '' # declare the dependencies explicitly, so mc-publish won't try to load from fabric.mod.json
